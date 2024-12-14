@@ -10,7 +10,7 @@
             <div class="p-4 sm:p-8 bg-grey dark:bg-gray-800 shadow sm:rounded-lg">
                 <div class="max-w-xxl mx-auto">
                                 
-
+                <livewire:Poscontroller.PosView />
                    
                 </div>
             </div>
