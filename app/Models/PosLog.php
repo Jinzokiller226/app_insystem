@@ -8,7 +8,7 @@ class PosLog extends Model
 {
     protected $fillable = [
         'pos_typeOfPurchase',
-        'pos_od',
+        'pos_pd',
         'Note',
         'pos_addamount',
         'pos_deposit',

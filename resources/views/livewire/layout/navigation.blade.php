@@ -84,9 +84,30 @@ new class extends Component
                     <x-nav-link :href="route('inventory')" :active="request()->routeIs('inventory')" wire:navigate>
                         {{ __('Inventory System') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('pointofsales')" :active="request()->routeIs('pointofsales')" wire:navigate>
-                        {{ __('Point of Sales') }}
-                    </x-nav-link>
+                    <div class="inline-flex space-x-8 sm:-my-px sm:ms-10 items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out">
+                            <x-dropdown class="flex" align="left" width="48">
+                            <x-slot name="trigger">
+                                <button class="inline-flex items-center   ">
+                                {{ __('Point Of Sales') }}
+                                    <div class="ms-1">
+                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </button>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                <x-dropdown-link :href="route('pointofsales')" wire:navigate>
+                                    {{ __('Create Purchase') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('PendingPurchaseView')" wire:navigate>
+                                    {{ __('Pending Purchase') }}
+                                </x-dropdown-link>
+                            
+                            </x-slot>
+                        </x-dropdown>        
+                        </div>
                     <x-nav-link :href="route('patientinfosystem')" :active="request()->routeIs('patientinfosystem')" wire:navigate>
                         {{ __('Patient Information System') }}
                     </x-nav-link>

@@ -14,7 +14,17 @@
         @if($isAddPosModal)
        
                 <form>
-                
+                <div class="mt-4">
+                    <label for="gender" class="block font-medium text-sm text-gray-700 dark:text-gray-300">Type of Purchase</label>
+                        <select name="gender"
+                        class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" 
+                        wire:model="pos_typeofPurchase" required
+                        >
+                        <option value="">Select Gender</option>
+                        <option value="fp">Full Payment</option>
+                        <option value="dp">Deposit</option>
+                        </select>
+                    </div>
                 </form>
             @endif
 

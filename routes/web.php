@@ -20,6 +20,11 @@ Route::view('profile', 'profile')
     ->middleware(['auth', 'verified'])
     ->name('pointofsales');
 
+    Route::view('PendingPurchaseView', 'PendingPurchaseView')
+    ->middleware(['auth', 'verified'])
+    ->name('PendingPurchaseView');
+
+  
     Route::view('patientinfosystem', 'patientinfosystem')
     ->middleware(['auth', 'verified'])
     ->name('patientinfosystem');
