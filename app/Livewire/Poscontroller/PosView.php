@@ -9,30 +9,49 @@ use App\Models\Oculusdexter;
 use App\Models\Oculussinister;
 use App\Models\Branch;
 use App\Models\Product;
-
+use Livewire\WithPagination;
+use Livewire\WithoutUrlPagination;
 use Livewire\Component;
 
 class PosView extends Component
 {
+    use WithPagination,WithoutUrlPagination;
+
     protected $patientData;
-    public $perPage;
+    public $perPage = 10;
     public $search;
     public $isAddPosModal = false;
     public $branches;
+    public $createPosByPatient;
+    public $patient_id;
+    public $patientNameforModal = "";
+    public $pos_typeofPurchase;
+    public $pos_od_enable = false;
+    public $pos_os_enable = false;
+    
+    public function getIDforPos($item){
+        $this->refreshTable();
+        $this->isAddPosModal = true;
+        $this->patient_id = $item;
+        
+        $patient = PatientInfo::find($item);
+        $this->patientNameforModal = $patient->patient_lname . ', ' . $patient->patient_fname . ' ';
+        
+
+    }
 
     public function refreshTable()
     {
         $this->reset();
 
-        $this->patientData = false;
+        $this->isAddPosModal = false;
         $this->resetTable();
         
 
     }
 
     public function resetTable(){
-        $this->patientData = false;
-        $this->patientData = Patientinfo::paginate($this->perPage,pageName: 'Patients');
+        $this->patientData = Patientinfo::search($this->search)->paginate($this->perPage,pageName: 'Patients');
        $this->branches = Branch::all();
 
      
@@ -42,8 +61,9 @@ class PosView extends Component
     }
     public function render()
     {
-        $this->patientData = Patientinfo::search($this->search)->paginate($this->perPage);;
-
+       
+        
+        $this->patientData = Patientinfo::search($this->search)->paginate($this->perPage,pageName: 'Patients');
         return view('livewire.pos.pos-view',[
             'data' =>   $this->patientData
         ]);
