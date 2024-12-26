@@ -76,6 +76,9 @@ new class extends Component
                                 <x-dropdown-link :href="route('categorymanagement')" wire:navigate>
                                     {{ __('Category') }}
                                 </x-dropdown-link>
+                                <x-dropdown-link :href="route('doctormanagement')" wire:navigate>
+                                    {{ __('Doctor') }}
+                                </x-dropdown-link>
                             
                             </x-slot>
                         </x-dropdown>        
@@ -184,6 +187,9 @@ new class extends Component
                         {{ __('Branch') }}
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('categorymanagement')" wire:navigate>
+                                    {{ __('Category') }}
+                      </x-responsive-nav-link>
+                      <x-responsive-nav-link :href="route('doctormanagement')" wire:navigate>
                                     {{ __('Category') }}
                       </x-responsive-nav-link>
                

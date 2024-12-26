@@ -17,7 +17,7 @@ class PatientInfoView extends Component
     protected  $data;
     public $isAddOpen = false;
     public $isEditOpen = false;
-
+    public $UpdateDiagnosis = false;
     public $patient_id;
     public $patient_fname;
     public $patient_mname = "";
@@ -28,7 +28,8 @@ class PatientInfoView extends Component
     public $patient_gender;
     public $branch_id;
     public $user_id;
-   
+    public $pos_od_enable = false;
+    public $pos_os_enable = false;
     // Combo box fields
     public $branches;
    // Searching
@@ -50,6 +51,14 @@ class PatientInfoView extends Component
         $this->branch_id = $patient->branch_id;
     
 
+    }
+    public function infoDiagnosis($item){
+        $this->refreshTable();
+        $this->UpdateDiagnosis = true;
+        $this->patient_id = $item;
+
+        // Get patient ID for view
+        
     }
     public function UpdatePatient(){
        
@@ -119,6 +128,8 @@ class PatientInfoView extends Component
 
         $this->isAddOpen = false;
         $this->isEditOpen = false;
+        $this->UpdateDiagnosis = false;
+
         $this->resetTable();
         
 
@@ -127,6 +138,7 @@ class PatientInfoView extends Component
     public function resetTable(){
         $this->isAddOpen = false;
         $this->isEditOpen = false;
+        $this->UpdateDiagnosis = false;
         $this->data = Patientinfo::paginate(10,pageName: 'Patients');
        $this->branches = Branch::all();
 

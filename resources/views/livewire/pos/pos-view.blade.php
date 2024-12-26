@@ -12,98 +12,11 @@
                 </button>
             </div>
         @if($isAddPosModal)
-        <div class="grid grid-cols-2 gap-4">
+        <div>
 
-<!-- Each <div> is a single column.
-Place some content inside to see the effect. -->
-                    <div>
-                    <h3 class=" pb-4 text-sm font-semibold text-gray-900 dark:text-white">Diagnosis</h3>
-                    <div class="flex justify-between items-center pb-2 mb-2 rounded-t border-b sm:mb-5 dark:border-gray-600">
-                        
-                    <h5 class="text-sm font-semibold text-gray-900 dark:text-white"> OS - Left Eye   <input id="default-checkbox" type="checkbox" wire:model.live="pos_os_enable" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    </h5>
-                    </div>
-                   
-                        @if($pos_os_enable)
-                            <div class="grid gap-6 mb-6 md:grid-cols-3">
-                            
-                                <div>
-                                        <label for="os_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sphere</label>
-                                        <input type="text" id="os_sphere" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Sphere" required />
-                                    </div>
-                                    <div>
-                                        <label for="os_cylinder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cylinder</label>
-                                        <input type="text" id="os_cylinder" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Cylinder" required />
-                                    </div>
-                                    <div>
-                                        <label for="os_axis" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Axis</label>
-                                        <input type="text" id="os_axis" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Axis" required />
-                                    </div>
-                                    <div>
-                                        <label for="os_add" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add</label>
-                                        <input type="text" id="os_add" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Add" required />
-                                    </div>
-                                    <div>
-                                        <label for="os_va" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">VA</label>
-                                        <input type="text" id="os_va" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="VA" required />
-                                    </div>
-                                
-                            </div>
-                                    
-                            @endif
-                    <div class="flex justify-between items-center pb-2 mb-2 rounded-t border-b sm:mb-5 dark:border-gray-600">
-                    <h5 class="text-sm font-semibold text-gray-900 dark:text-white"> OD - Right Eye   <input id="default-checkbox" type="checkbox" wire:model.live="pos_od_enable" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    </h5>
-                
-                    </div>
-                        @if($pos_od_enable)
-                            <div class="grid gap-6 mb-6 md:grid-cols-3 ">
-                                
-                                <div>
-                                        <label for="od_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sphere</label>
-                                        <input type="text" id="od_sphere" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Sphere" required />
-                                    </div>
-                                    <div>
-                                        <label for="od_cylinder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cylinder</label>
-                                        <input type="text" id="od_cylinder" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Cylinder" required />
-                                    </div>
-                                    <div>
-                                        <label for="od_axis" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Axis</label>
-                                        <input type="text" id="od_axis" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Axis" required />
-                                    </div>
-                                    <div>
-                                        <label for="od_add" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add</label>
-                                        <input type="text" id="od_add" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Add" required />
-                                    </div>
-                                    <div>
-                                        <label for="od_va" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">VA</label>
-                                        <input type="text" id="od_va" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="VA" required />
-                                    </div>
-                            </div>
-                            @endif
-                            <div>
-                                        <label for="notes" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes</label>
-                                        <input type="text" id="notes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Notes" required />
-                            </div>
-                            <div>
-                                        <label for="pd" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PD</label>
-                                        <input type="text" id="pd" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="PD" required />
-                            </div>
-                            <!-- Doctor List Depends on Patient's Branch -->
-                            <div class="mb-4">
-                                        <label for="doctor_list" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Doctor</label>
-                                        <select id="doctor_list"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                <!-- Populate Here -->
-                                            <option value="FP">Full Payment</option>
-                                            <option value="DP">Deposit/Down Payment</option>
-                                        </select>
 
-                                        </div>
-                            
-                    </div>
                 <!-- DIV COls -->
-                        <div class="border-l  border-stone-600">
-                        <h5 class="p-2 text-sm font-semibold text-gray-900 dark:text-white">Additional Info</h5>
+                        <div >
                                 <div class="grid grid-rows-4 gap-6 mb-6 md:grid-cols-1 p-8  ">
                                     
                                         <div >
@@ -138,7 +51,7 @@ Place some content inside to see the effect. -->
                                     {{ __('Already registered?') }}
                                 </a> -->
                                 <button type="submit" 
-                                class="w-full px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150" 
+                                class="w-full mt-4 px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150" 
                                     >
                                     {{ __('Save') }}
                                 </button>

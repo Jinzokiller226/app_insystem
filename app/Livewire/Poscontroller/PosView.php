@@ -26,9 +26,19 @@ class PosView extends Component
     public $patient_id;
     public $patientNameforModal = "";
     public $pos_typeofPurchase;
-    public $pos_od_enable = false;
-    public $pos_os_enable = false;
     
+    
+
+    // Create POS Variables
+    public $typeOfPurchase;
+    public $lensProduct_id;
+    public $frameProduct_id;
+    public $doctor_id;
+    public $notes;
+    public $pd;
+
+
+    // 
     public function getIDforPos($item){
         $this->refreshTable();
         $this->isAddPosModal = true;
@@ -39,7 +49,28 @@ class PosView extends Component
         
 
     }
+    public function addRightEye(){
 
+    }
+    public function addLeftEye(){
+
+    }
+    public function savePos(){
+        if($this->isAddPosModal){
+            return;
+        }else{
+
+            
+
+            if( $this->pos_od_enable){
+                // Add OD Right Eye
+            }
+            if($this->pos_os_enable){
+                // add OS Left Eye
+            }
+
+        }
+    }
     public function refreshTable()
     {
         $this->reset();
