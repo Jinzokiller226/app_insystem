@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('poslogs', function (Blueprint $table) {
             $table->id();
             $table->string('pos_typeOfPurchase');
-            $table->string('pos_pd');
-            $table->longText('Note');
             $table->tinyInteger('pos_addamount');
             $table->tinyInteger('pos_deposit');
             $table->tinyInteger('pos_balance');

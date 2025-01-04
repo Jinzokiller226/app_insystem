@@ -17,7 +17,10 @@ export default {
         },
     },
 
+
     plugins: [forms],
+
+    
 };
 module.exports = {
     content: [
@@ -43,3 +46,5 @@ module.exports = {
     ]
 
 }
+
+

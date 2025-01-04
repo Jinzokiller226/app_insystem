@@ -29,6 +29,9 @@ Route::view('profile', 'profile')
     ->middleware(['auth', 'verified'])
     ->name('patientinfosystem');
 
+ 
+
+
     Route::view('doctormanagement', 'doctormanagement')
     ->middleware(['auth', 'verified'])
     ->name('doctormanagement');

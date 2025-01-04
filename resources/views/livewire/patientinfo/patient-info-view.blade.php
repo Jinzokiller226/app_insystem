@@ -226,11 +226,11 @@
 <!-- Edit Patient Modal -->
 
 <!-- Add/Update Diagnosis -->
-<div  id="editPatientModal" class="modal fade @if($UpdateDiagnosis) show @else hidden @endif fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center  z-5  " data-bs-toggle="modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: @if($UpdateDiagnosis) fixed @else none @endif;">
+<div  id="UpdateDiagnosis" class="modal fade @if($UpdateDiagnosis) show @else hidden @endif fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center  z-5  " data-bs-toggle="modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: @if($UpdateDiagnosis) fixed @else none @endif;">
     <div class="bg-white p-6 rounded-lg w-1/3 h-1/3">
         <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    Add/Update Diagnosis
+                    Add/Update Diagnosis ({{$patient_fullName}})
                 </h3>
                 <button type="button" wire:click="refreshTable" data-bs-dismiss="modal"  class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -239,97 +239,109 @@
         </div>
             <!-- Each <div> is a single column.
 Place some content inside to see the effect. -->
-<div>
+        <div>
                     <h3 class=" pb-4 text-sm font-semibold text-gray-900 dark:text-white">Diagnosis</h3>
                     <div class="flex justify-between items-center pb-2 mb-2 rounded-t border-b sm:mb-5 dark:border-gray-600">
-                        
-                    <h5 class="text-sm font-semibold text-gray-900 dark:text-white"> OS - Left Eye   <input id="default-checkbox" type="checkbox" wire:model.live="pos_os_enable" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <form >  
+                <h5 class="text-sm font-semibold text-gray-900 dark:text-white"> OS - Left Eye   <input id="default-checkbox" type="checkbox" wire:model.live="os_enable" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     </h5>
                     </div>
                    
-                        @if($pos_os_enable)
+                        @if($os_enable)
                             <div class="grid gap-6 mb-6 md:grid-cols-3">
                             
                                 <div>
                                         <label for="os_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sphere</label>
-                                        <input type="text" id="os_sphere" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Sphere" required />
+                                        <input type="text" wire:model="os_sphere" id="os_sphere" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Sphere" required />
                                     </div>
                                     <div>
                                         <label for="os_cylinder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cylinder</label>
-                                        <input type="text" id="os_cylinder" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Cylinder" required />
+                                        <input type="text" wire:model="os_cylinder" id="os_cylinder" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Cylinder" required />
                                     </div>
                                     <div>
                                         <label for="os_axis" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Axis</label>
-                                        <input type="text" id="os_axis" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Axis" required />
+                                        <input type="text" wire:model="os_axis" id="os_axis" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Axis" required />
                                     </div>
                                     <div>
                                         <label for="os_add" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add</label>
-                                        <input type="text" id="os_add" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Add" required />
+                                        <input type="text" wire:model="os_add" id="os_add" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Add" required />
                                     </div>
                                     <div>
                                         <label for="os_va" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">VA</label>
-                                        <input type="text" id="os_va" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="VA" required />
+                                        <input type="text" wire:model="os_va" id="os_va" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="VA" required />
                                     </div>
                                 
                             </div>
                                     
                             @endif
                     <div class="flex justify-between items-center pb-2 mb-2 rounded-t border-b sm:mb-5 dark:border-gray-600">
-                    <h5 class="text-sm font-semibold text-gray-900 dark:text-white"> OD - Right Eye   <input id="default-checkbox" type="checkbox" wire:model.live="pos_od_enable" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <h5 class="text-sm font-semibold text-gray-900 dark:text-white"> OD - Right Eye   <input id="default-checkbox" type="checkbox" wire:model.live="od_enable" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     </h5>
                 
                     </div>
-                        @if($pos_od_enable)
+                        @if($od_enable)
                             <div class="grid gap-6 mb-6 md:grid-cols-3 ">
                                 
                                 <div>
                                         <label for="od_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sphere</label>
-                                        <input type="text" id="od_sphere" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Sphere" required />
+                                        <input type="text" wire:model="od_sphere" id="od_sphere" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Sphere" required />
                                     </div>
                                     <div>
                                         <label for="od_cylinder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cylinder</label>
-                                        <input type="text" id="od_cylinder" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Cylinder" required />
+                                        <input type="text" wire:model="od_cylinder" id="od_cylinder" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Cylinder" required />
                                     </div>
                                     <div>
                                         <label for="od_axis" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Axis</label>
-                                        <input type="text" id="od_axis" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Axis" required />
+                                        <input type="text" wire:model="od_axis" id="od_axis" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Axis" required />
                                     </div>
                                     <div>
                                         <label for="od_add" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add</label>
-                                        <input type="text" id="od_add" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Add" required />
+                                        <input type="text" wire:model="od_add" id="od_add" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Add" required />
                                     </div>
                                     <div>
                                         <label for="od_va" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">VA</label>
-                                        <input type="text" id="od_va" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="VA" required />
+                                        <input type="text" wire:model="od_va" id="od_va" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="VA" required />
                                     </div>
                             </div>
                             @endif
                             <div>
                                         <label for="notes" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes</label>
-                                        <input type="text" id="notes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Notes" required />
+                                        <input type="text" wire:model="pr_notes" id="notes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Notes" required />
                             </div>
                             <div>
                                         <label for="pd" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PD</label>
-                                        <input type="text" id="pd" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="PD" required />
+                                        <input type="text" wire:model="pr_pd" id="pd" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="PD" required />
                             </div>
                             <!-- Doctor List Depends on Patient's Branch -->
-                            <div class="mb-4">
-                                        <label for="doctor_list" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Doctor</label>
-                                        <select id="doctor_list"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                <!-- Populate Here -->
-                                            <option value="FP">Full Payment</option>
-                                            <option value="DP">Deposit/Down Payment</option>
-                                        </select>
+                            <div class="mt-4">
+                            <label for="branch_id" class="block font-medium text-sm text-gray-700 dark:text-gray-300">Doctor</label>
+                                <select
+                                class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" 
+                                id="branch_id" wire:model="branch_id" required>
+                                    
+                                    @foreach($doctors as $doctor)
+                                        <option value="{{ $doctor->id }}">{{ $doctor->doctor_fname.' '.$doctor->doctor_mname.' '.$doctor->doctor_lname }}</option>
+                                    @endforeach
+                                </select>
+                                @error('branch_id') <span class="error">{{ $message }}</span> @enderror
+                        </div> 
 
-                                        </div>
+                        <div class="flex items-center justify-end mt-4">
+                            <button type="submit"
+                            class=" inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 ms-4" 
+                                >
+                                {{ __('Save') }}
+                            </button>
                             
-                    </div>
-        
+                        </div>
+                </form>
+                
+        </div>
+          
     </div>
 
 </div>
 <!-- Add/Update Diagnosis -->
-
 <button type="button" wire:click="$set('isAddOpen', true)"   class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-80 " >Add Patient (+)</button>
 <x-text-input type="text" wire:model.live.denounce.500ms="search" placeholder="Search" class="mb-4 p-2 border rounded" />
 <div class="relative overflow-x-auto ">
@@ -384,7 +396,8 @@ Place some content inside to see the effect. -->
             </th>
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <button class="text-blue-400 hover:underline" type="button"  wire:click="UpdateData({{$patient->id}})">Edit  </button> |
-            <button class="text-blue-400 hover:underline" type="button" wire:click="infoDiagnosis({{$patient->id}})">Update Diagnosis</button>
+            <button class="text-blue-400 hover:underline" type="button" wire:click="infoDiagnosis({{$patient->id}})">Update Diagnosis</button> |
+            <button class="text-blue-400 hover:underline" type="button" wire:click="viewHistory({{$patient->id}})" >View History</button>
             </th>
         </tr>
         @endforeach
