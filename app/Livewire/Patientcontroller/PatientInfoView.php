@@ -145,6 +145,11 @@ class PatientInfoView extends Component
                         }
 
                         $this->insertPR($getlatestOS,$getlatestOD);
+                        
+                        $this->refreshTable();
+                        $this->dispatch('success', message: 'Patient Diagnosis Updated Successfully');
+                     
+                       
 
         }
 
@@ -163,10 +168,7 @@ class PatientInfoView extends Component
         event(new Registered($pr = Patientrecord::create($validated)));
 
 
-       
-        $this->dispatch('success', message: 'Patient Diagnosis Updated Successfully');
-        $this->refreshTable();
-        
+      
 
    
     }
@@ -234,13 +236,8 @@ class PatientInfoView extends Component
     }
     public function refreshTable()
     {
-        $this->reset();
-
-        $this->isAddOpen = false;
-        $this->isEditOpen = false;
-        $this->UpdateDiagnosis = false;
-        
-        $this->resetTable();
+        $this->reset();     
+         $this->resetTable();
         
 
     }
@@ -251,7 +248,7 @@ class PatientInfoView extends Component
         $this->UpdateDiagnosis = false;
         $this->data = Patientinfo::paginate(10,pageName: 'Patients');
        $this->branches = Branch::all();
-        $this->doctors = DoctorInfo::all();
+
 
 
      
@@ -263,7 +260,6 @@ class PatientInfoView extends Component
   
         $this->data = Patientinfo::paginate(10,pageName: 'Patients');
         $this->branches = Branch::all();
-         $this->doctors = DoctorInfo::all();
 
     }
 
@@ -272,7 +268,8 @@ class PatientInfoView extends Component
       
         
        
-       
+        $this->doctors = DoctorInfo::all();
+
         $this->data = Patientinfo::search($this->search)->paginate($this->perPage);
         return view('livewire.patientinfo.patient-info-view',[
             'data' =>   $this->data
