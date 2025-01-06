@@ -12,6 +12,6 @@ class Oculussinister extends Model
         'os_axis',
         'os_add',
         'os_va',
-        'pos_id',
+        'patient_id',
     ];
 }

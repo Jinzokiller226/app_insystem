@@ -54,6 +54,8 @@ class PatientInfoView extends Component
     // OS FIELD END
     public $pr_notes;
     public $pr_pd;
+    public $doctor_id = 0;
+
 
     // Combo box fields
     public $branches;
@@ -68,6 +70,7 @@ class PatientInfoView extends Component
     public $session_patient_id;
 
     public function UpdateData($item){
+        $this->reset();
         $this->refreshTable();
         $this->isEditOpen = true;
         $this->patient_id = $item;
@@ -85,74 +88,87 @@ class PatientInfoView extends Component
 
     }
     public function infoDiagnosis($item){
-        $this->refreshTable();
+
         $this->UpdateDiagnosis = true;
-        $this->patient_id = $item;
         $patient = PatientInfo::find($item);
-       
-        $this->patient_fullName = $patient->patient_fname.' '.$patient->patient_mname.' '.$patient->patient_lname.' ';
-        $get_patientRecord = Patientrecord::where('id',$item)->orderByDesc('id')->limit(1)->get();
+        $this->patient_id = $item;
 
-            foreach($get_patientRecord as $record){
-                    $this->pr_notes = $record->pr_notes;
-                    $this->pr_pd = $record->pr_pd;
-
-            }
-
-        $get_od = Oculusdexter::where('id',$item)->orderByDesc('created_at')->limit(1)->get();
-        $countOD = OculusDexter::where('id',$item)->count();
-
-        $get_os = Oculussinister::where('id',$item)->orderByDesc('created_at')->limit(1)->get();
-        $countOS = Oculussinister::where('id',$item)->count();
-        if($countOD > 0){
-                foreach($get_od as $odData){
-                    $this->od_enable = true;
-                    $this->od_sphere = $odData->od_sphere;
-                    $this->od_cylinder = $odData->od_cylinder;
-                    $this->od_axis = $odData->od_axis;
-                    $this->od_add = $odData->od_add;
-                    $this->od_va = $odData->od_va;
-                }
-        }
-        if($countOS > 0){
-            foreach($get_os as $osData){
-                $this->os_enable = true;
-                $this->os_sphere = $osData->os_sphere;
-                $this->os_cylinder = $osData->os_cylinder;
-                $this->os_axis = $osData->os_axis;
-                $this->os_add = $osData->os_add;
-                $this->os_va = $osData->os_va;
-            }
-           
-        }
-        
-        
-
-        
+        $this->patient_fullName = $patient->patient_fname.' '.$patient->patient_mname.' '.$patient->patient_lname.' ';        
     }
 
     public function viewHistory($itemID){
        session()->put('patient_data',$itemID);
        $this->redirect(route('patientinfosystem', absolute: false), navigate: true);
-        
+    
         
         
     }
 
-    public function addOD_data($patientID){
-        
-    }
-
-    public function addOS_data($patientID){
-        
-    }
-
-    public function UpdateDiagnosis(){
+    public function registerDiagnosis(){
         if(!$this->UpdateDiagnosis){
             return;
         }else{
             
+            $validated_os;
+            $validated_od;
+
+            $getlatestOD = 0;
+            $getlatestOS = 0;
+
+                        if($this->os_enable == true){
+                            $validated_os = $this->validate([
+                            'os_sphere' => ['required', 'int', 'max:255'],
+                            'os_cylinder' => ['required', 'int', 'max:255'],
+                            'os_axis' => ['required', 'int', 'max:255'],
+                            'os_add' => ['required', 'int', 'max:255'],
+                            'os_va' => ['required', 'int', 'max:255'],
+                            ]);
+                            $validated_os['patient_id'] = $this->patient_id;                
+                            event(new Registered($patient = Oculussinister::create($validated_os)));
+                            $getlatestOS = $patient->id;
+
+                    
+
+                        }
+
+                        if($this->od_enable == true){
+                            $validated_od = $this->validate([
+                            'od_sphere' => ['required', 'int', 'max:255'],
+                            'od_cylinder' => ['required', 'int', 'max:255'],
+                            'od_axis' => ['required', 'int', 'max:255'],
+                            'od_add' => ['required', 'int', 'max:255'],
+                            'od_va' => ['required', 'int', 'max:255'],
+                            ]);
+                            $validated_od['patient_id'] = $this->patient_id;                
+                            event(new Registered($patient = Oculusdexter::create($validated_od)));
+                            $getlatestOD = $patient->id;
+                        }
+
+                        $this->insertPR($getlatestOS,$getlatestOD);
+
         }
+
+    }
+
+    public function insertPR($lastOS,$lastOD){
+        $validated['pr_notes'] = $this->pr_notes;        
+        $validated['pr_pd'] = $this->pr_pd;       
+        $validated['doctor_id'] = $this->doctor_id;   
+        $validated['patient_id'] = $this->patient_id;        
+        $validated['user_id'] = auth()->user()->id;  
+        $validated['os_id'] = $lastOS;   
+        $validated['od_id'] = $lastOD;   
+             
+     
+        event(new Registered($pr = Patientrecord::create($validated)));
+
+
+       
+        $this->dispatch('success', message: 'Patient Diagnosis Updated Successfully');
+        $this->refreshTable();
+        
+
+   
     }
     public function UpdatePatient(){
        
@@ -223,7 +239,7 @@ class PatientInfoView extends Component
         $this->isAddOpen = false;
         $this->isEditOpen = false;
         $this->UpdateDiagnosis = false;
-
+        
         $this->resetTable();
         
 

@@ -12,6 +12,6 @@ class Oculusdexter extends Model
         'od_axis',
         'od_add',
         'od_va',
-        'pos_id',
+        'patient_id',
     ];
 }
