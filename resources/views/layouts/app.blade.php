@@ -14,15 +14,16 @@
         <!-- Scripts -->
         
        
-        
-        @livewireStyles
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+       
+      
+        @push('styles')
 
-        <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" >
+        <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" >
         <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-        
-        @vite(['resources/js/app.js'])
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+        @endpush
+        @livewireStyles 
         @stack('styles')
         
     </head>
@@ -46,14 +47,30 @@
                 {{ $slot }}
             </main>
         </div>
+       
+      
+      
+        @vite(['resources/js/app.js'])
+        @livewireScripts
+        @push('scripts')
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
         <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
+        @endpush
+        @stack('scripts')
+       
         
-        <!-- Toastr Script for livewire -->
-         <script>
+    </body>
+
+    <script>
+        document.addEventListener('livewire:load', function () {
+    Alpine.start();  // Ensure Alpine is started after Livewire loads
+});
+    </script>
+     <!-- Toastr Script for livewire -->
+     <script>
             $(document).ready(function(){
                
                 toastr.options.positionClass = 'toast-top-right'
@@ -80,11 +97,6 @@
             });
          </script>
         <!-- Connect component files js -->
-        @stack('scripts')
-        @livewireScripts
-       
-        
-    </body>
     <script >
 
 

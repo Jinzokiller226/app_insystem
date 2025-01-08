@@ -9,9 +9,11 @@ use App\Models\Patientinfo;
 use App\Models\DoctorInfo;
 use App\Models\Oculusdexter;
 use App\Models\Oculussinister;
-use App\Models\Patientrecord;
+
 use Livewire\Attributes\Session;
 use App\Models\Branch;
+use App\Models\Patientrecord;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Events\Registered;
 class PatientInfoView extends Component
@@ -20,6 +22,7 @@ class PatientInfoView extends Component
     public $perPage = 10;
     
     protected  $data;
+    public $historyData;
     public $isAddOpen = false;
     public $isEditOpen = false;
     public $UpdateDiagnosis = false;
@@ -64,11 +67,17 @@ class PatientInfoView extends Component
    // Searching
     public $search;
 
+    
+    public $dataFromSession;
 
+    public $patientName;
+    public $patientRecordCount;
     // Session for History
     #[Session] 
     public $session_patient_id;
 
+
+    
     public function UpdateData($item){
         $this->reset();
         $this->refreshTable();
@@ -97,11 +106,24 @@ class PatientInfoView extends Component
     }
 
     public function viewHistory($itemID){
-       session()->put('patient_data',$itemID);
-       $this->redirect(route('patientinfosystem', absolute: false), navigate: true);
-    
+        $this->historyData = null;
+        $this->dataFromSession = 0;
+       $this->dataFromSession = $itemID;
+        $this->showData();
         
+    }
+    public function showData(){
+           
+      
+        $patient = PatientInfo::find($this->dataFromSession);
+        $this->patientID = $patient->id;
+
+        $this->patientName = $patient->patient_fname.' '.$patient->patient_mname.' '.$patient->patient_lname;
+        $this->historyData = Patientrecord::all()->where('patient_id',$this->dataFromSession);
         
+        $this->patientRecordCount = Patientrecord::all()->where('patient_id','=',$this->dataFromSession)->count();
+       
+      
     }
 
     public function registerDiagnosis(){
@@ -236,7 +258,8 @@ class PatientInfoView extends Component
     }
     public function refreshTable()
     {
-        $this->reset();     
+        $this->reset();   
+       
          $this->resetTable();
         
 
@@ -260,6 +283,7 @@ class PatientInfoView extends Component
   
         $this->data = Patientinfo::paginate(10,pageName: 'Patients');
         $this->branches = Branch::all();
+        
 
     }
 
@@ -268,8 +292,8 @@ class PatientInfoView extends Component
       
         
        
-        $this->doctors = DoctorInfo::all();
-
+        
+        $this->doctors = DoctorInfo::all();  
         $this->data = Patientinfo::search($this->search)->paginate($this->perPage);
         return view('livewire.patientinfo.patient-info-view',[
             'data' =>   $this->data

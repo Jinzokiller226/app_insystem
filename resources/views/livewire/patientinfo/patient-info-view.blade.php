@@ -1,11 +1,4 @@
 <div>
-
-<!--Session popup  -->
-
-
-    
-
-<!--Session popup  -->
 <!-- Add Patient Modal -->
 <div  id="addPatientModal" class="modal fade @if($isAddOpen) show @else hidden @endif fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center  z-5  " data-bs-toggle="modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: @if($isAddOpen) fixed @else none @endif;">
         <div class="bg-white p-6 rounded-lg w-1/3 h-1/3">
@@ -327,7 +320,7 @@ Place some content inside to see the effect. -->
                             </div> 
 
                         <div class="flex items-center justify-end mt-4">
-                            <button type="submit"
+                            <button type="submit" wire:click="registerDiagnosis"
                             class=" inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 ms-4" 
                                 >
                                 Save 
@@ -348,10 +341,167 @@ Place some content inside to see the effect. -->
 
 </div>
 <!-- Add/Update Diagnosis -->
+@if($dataFromSession > 0)
+
+    <div  class="py-4  @if($isAddOpen== true || $isEditOpen == true || $UpdateDiagnosis == true) hidden @else @endif max-w-xxl mx-auto sm:px-6 lg:px-8 space-y-6  @if($dataFromSession > 0) animate__animated animate__fadeInLeft @endif">
+            <div class="p-4 sm:p-8 bg-white dark:bg-white-800 shadow sm:rounded-lg ">
+                <div class="max-w-xxl mx-auto ">
+                    <h1 class="py-3 font-bold text-center text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                    Patient History ({{$patientName}})
+                    </h1>
+                    
+                    <!-- History Data -->
+                   
+                    <div class="relative overflow-x-auto ">
+                    @if($patientRecordCount <= 0)
+                    <h1 class="font-bold text-center text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                    No Record
+                    </h1>
+                    @else
+                                <table class="@if($isAddOpen== true || $isEditOpen == true || $UpdateDiagnosis == true) hidden @else @endif w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                            <tr>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Record #
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Eye Location
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Sphere
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Cylinder
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        axis
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        VA
+                                                    </th>
+                                                    
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Add
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Notes
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        PD
+                                                    </th>
+                                                </tr>
+                                    </thead>
+                                    <tbody>
+                                    
+                            
+                                        @foreach($historyData as $patient)
+                                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
+                                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                               # {{$patient->id}}
+
+                                            </th>
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Oculus Sinister(Left Eye)
+
+                                            </th>
+                                            @foreach($patient->oculussinisters as $osdata)
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {{$osdata->os_sphere}}
+
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {{$osdata->os_cylinder}}
+
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {{$osdata->os_axis}}
+
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {{$osdata->os_va}}
+
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {{$osdata->os_add}}
+
+                                                </th>
+                                            @endforeach
+                                        </tr>
+                                        <tr class="bg-white-50 dark:bg-gray-800">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                           
+
+                                            </th>
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Oculus Dexter(Right Eye)
+
+                                            </th>
+                                        @foreach($patient->oculusdexters as $oddata)
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {{$oddata->od_sphere}}
+
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {{$oddata->od_cylinder}}
+
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {{$oddata->od_axis}}
+
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {{$oddata->od_va}}
+
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {{$oddata->od_add}}
+
+                                                </th>
+                                            @endforeach
+                                        </tr>
+                                        <tr class="bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                @foreach($patient->doctors as $doctor)
+                                                    Attending Doctor: {{$doctor->doctor_fname.' '.$doctor->doctor_lname}}
+                                                @endforeach
+                                            </th>
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Date: {{ date_format($patient->created_at,"M. d,Y")}}
+                                            </th>
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{$patient->pr_notes}}
+                                            </th>
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{$patient->pr_pd}}
+                                            </th>
+                                        </tr>
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
+                        @endif
+                        </div>
+                </div>
+            </div>
+        </div>
+
+    @endif
+
+
+
+    
 <button type="button" wire:click="$set('isAddOpen', true)"   class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-80 " >Add Patient (+)</button>
 <x-text-input type="text" wire:model.live.denounce.500ms="search" placeholder="Search" class="mb-4 p-2 border rounded" />
-<div class="relative overflow-x-auto ">
-<table class="@if($isAddOpen== true || $isEditOpen == true || $UpdateDiagnosis == true) hidden @else @endif w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+<div class="relative overflow-x-auto @if($isAddOpen== true || $isEditOpen == true || $UpdateDiagnosis == true) hidden @else @endif ">
+    <h1 class="py-4 font-bold text-center text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Patient List') }}
+    </h1>
+<table class=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                     <th scope="col" class="px-6 py-3">
@@ -432,3 +582,9 @@ Place some content inside to see the effect. -->
    
 
 </div>
+<script>
+  Livewire.on('componentUpdated', () => {
+    // Add code to ensure that CDN assets are reloaded if necessary
+    location.reload(); // force a page reload after Livewire update
+  });
+</script>
