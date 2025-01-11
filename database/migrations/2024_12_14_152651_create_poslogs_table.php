@@ -18,9 +18,7 @@ return new class extends Migration
             $table->tinyInteger('pos_deposit');
             $table->tinyInteger('pos_balance');
             $table->tinyInteger('pos_status');
-            $table->foreignId('doctor_id');
-            $table->foreignId('ocusin_id');
-            $table->foreignId('ocudex_id');
+            $table->foreignId('pr_id');
             $table->foreignId('lens_product_id');
             $table->foreignId('frame_product_id');
             $table->foreignId('patient_id');

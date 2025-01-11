@@ -16,49 +16,176 @@
 
 
                 <!-- DIV COls -->
-                        <div >
-                                <div class="grid grid-rows-4 gap-6 mb-6 md:grid-cols-1 p-8  ">
+                <div class="grid grid-cols-2 xl:grid-cols-2 gap-4 px-4  ">
+                    <div class="w-full h-full rounded-xl ">
+                     @if($pr_count == 0)    
+                 
+                    <h3 class="text-sm font-semibold text-gray-900 border-b border-gray-400 dark:text-white py-4">
+                                       No Diagnosis Data
+                    </h3>
+                    @endif   
+                         @foreach($patientrecord as $pr_data)
+                               
+                                <h3 class="text-sm font-semibold text-gray-900 border-b border-gray-400 dark:text-white py-4">
+                                       Patient Recent History (Patient Record # {{$pr_data->id}})
+                                </h3>
+                                <h3 class="text-sm font-semibold text-gray-900 border-b border-gray-400 dark:text-white py-4">
+                                      Date Recorded:   {{date_format($pr_data->created_at,'F d,Y g:i A')}}
+                                </h3>
+                            
+                                <h5 class="text-sm underline  font-semibold text-gray-900 dark:text-white py-2">OS - Left Eye </h5>
+                                    <div class="grid gap-6 mb-6 md:grid-cols-3 py-4  " >
+                                  
+                                            @if($os_data != null)
+                                                <div>
+                                                
+                                                        <label for="os_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sphere</label>
+                                                        <p id="os_sphere" class="text-sm ">{{$os_data->os_sphere}}</p>
+                                                </div>
+                                                <div>
+                                                
+                                                        <label for="os_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cylinder</label>
+                                                        <p id="os_sphere" class="text-sm ">{{$os_data->os_cylinder}}</p>
+                                                </div>
+                                                <div>
+                                                
+                                                        <label for="os_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Axis</label>
+                                                        <p id="os_sphere" class="text-sm ">{{$os_data->os_axis}}</p>
+                                                </div>
+                                                <div>
+                                                
+                                                <label for="os_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add</label>
+                                                <p id="os_sphere" class="text-sm ">{{$os_data->os_add}}</p>
+                                                </div>
+                                                <div>
+                                                
+                                                <label for="os_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">VA</label>
+                                                <p id="os_sphere" class="text-sm ">{{$os_data->os_va}}</p>
+                                                </div>
+                                        @else
+                                        <h4 class="text-sm   font-semibold text-gray-900 dark:text-white py-2">No OS Data </h4>
+                                        @endif
+                                    
+                                
+                                    </div>
+                                    <h5 class="text-sm underline  font-semibold text-gray-900 dark:text-white py-2">OD - Right Eye </h5>
+                                    <div class="grid gap-6 mb-6 md:grid-cols-3 py-4 " >
+                                    @if($od_data != null)
+                                        <div>
+                                        
+                                                <label for="os_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sphere</label>
+                                                <p id="os_sphere" class="text-sm ">{{$od_data->od_sphere}}</p>
+                                        </div>
+                                        <div>
+                                        
+                                                <label for="os_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cylinder</label>
+                                                <p id="os_sphere" class="text-sm ">{{$od_data->od_cylinder}}</p>
+                                        </div>
+                                        <div>
+                                        
+                                                <label for="os_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Axis</label>
+                                                <p id="os_sphere" class="text-sm ">{{$od_data->od_axis}}</p>
+                                        </div>
+                                        <div>
+                                        
+                                        <label for="os_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add</label>
+                                        <p id="os_sphere" class="text-sm ">{{$od_data->od_add}}</p>
+                                        </div>
+                                        <div>
+                                        
+                                        <label for="os_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">VA</label>
+                                        <p id="os_sphere" class="text-sm ">{{$od_data->od_va}}</p>
+                                        </div>
+                                       @else
+                                       <h4 class="text-sm   font-semibold text-gray-900 dark:text-white py-2">No OS Data </h4>
+                                       @endif
+
+                                    </div>
+                                    <h5 class="text-sm underline  font-semibold text-gray-900 dark:text-white py-2">Additional Information</h5>
+                                    <div class="grid gap-6 mb-6 md:grid-cols-2 py-4 " >
+                                        
+                                        <div>
+                                        
+                                                <label for="os_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes</label>
+                                                <p id="os_sphere" class="text-sm ">{{$pr_data->pr_notes}}</p>
+                                        </div>
+                                        <div>
+                                        
+                                                <label for="os_sphere" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PD</label>
+                                                <p id="os_sphere" class="text-sm ">{{$pr_data->pr_pd}}</p>
+                                        </div>
+                                       
+                                    </div>
+                                   
+                              
+                         @endforeach
+                    
+                    </div>
+                           
+                    <div class=" flex flex-col border-l border-grey px-8 justify-center">
                                     
                                         <div >
-                                        <label for="pos_typeofPurchase" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type of Purchase</label>
-                                        <select id="pos_typeofPurchase" wire:model="pos_typeofPurchase" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <label for="pos_typeofPurchase" class="text-sm font-medium text-gray-900 dark:text-white">Type of Purchase</label>
+                                        <select id="pos_typeofPurchase" wire:model.live.denounce.500ms="pos_typeofPurchase" class="form-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                             <option value="FP">Full Payment</option>
                                             <option value="DP">Deposit/Down Payment</option>
                                         </select>
-
-                                        </div>
                                         
+                                        </div>
+                                        @if($pos_typeofPurchase == 'DP')
+                                        <div >
+                                        <label for="pos_dp" class="text-sm font-medium text-gray-900 dark:text-white">Amount</label>
+                                        <input  id="pos_dp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"  type="number" name="patient_age"  required autofocus autocomplete="patient_age" />
+                                        </div>
+                                        @endif
                                         <!-- Lens List depends on Patient Branch -->
                                         <div >
-                                        <label for="pos_typeofPurchase" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lens</label>
-                                        <select id="pos_typeofPurchase"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                            <option value="FP">Full Payment</option>
-                                            <option value="DP">Deposit/Down Payment</option>
+                                      
+                                        <label for="lenslist" class=" text-sm font-medium text-gray-900 dark:text-white">Lens</label>
+                                        <select id="lenslist"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        @foreach($lenslist as $lens)
+                                            @if(auth()->user()->role->is_admin != 1)
+                                                @if($lens->branch_id == auth()->user()->role->branch_id)
+                                                <option value="{{$lens->id}}">{{$lens->product_name . ": " . $lens->product_price . " Pesos "}}</option>
+                                                @endif
+                                            @else
+                                                <option value="{{$lens->id}}">{{$lens->product_name . ": " . $lens->product_price . " Pesos "}}</option>
+                                            @endif
+                                        @endforeach
                                         </select>
+                                       
                                         <!-- Frame List depends on Patient Branch -->
                                         </div>
                                         <div>
-                                        <label for="pos_typeofPurchase" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Frame</label>
-                                        <select id="pos_typeofPurchase"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                            <option value="FP">Full Payment</option>
-                                            <option value="DP">Deposit/Down Payment</option>
+                                        <label for="pos_typeofPurchase" class=" text-sm font-medium text-gray-900 dark:text-white">Frame</label>
+                                        <select id="pos_typeofPurchase"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        @foreach($framelist as $frames)
+                                             @if(auth()->user()->role->is_admin != 1)
+                                                @if($frames->branch_id == auth()->user()->role->branch_id)
+                                                <option value="{{$frames->id}}">{{$frames->product_name . ": " . $frames->product_price . " Pesos"}}</option>
+                                                @endif
+                                            @else
+                                                <option value="{{$lens->id}}">{{$lens->product_name . ": " . $lens->product_price . " Pesos "}}</option>
+                                            @endif
+                                        @endforeach
                                         </select>
 
                                         </div>
-                                             
-                            <div class="items-center ">
-                                <!-- <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}" wire:navigate>
-                                    {{ __('Already registered?') }}
-                                </a> -->
-                                <button type="submit" 
-                                class="w-full mt-4 px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150" 
-                                    >
-                                    {{ __('Save') }}
-                                </button>
-                                
-                            </div>
+                                                        
+                                        <div class="items-center ">
+                                            <!-- <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}" wire:navigate>
+                                                {{ __('Already registered?') }}
+                                            </a> -->
+                                            <button type="submit" 
+                                            class="w-full mt-4 px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150" 
+                                                >
+                                                {{ __('Save') }}
+                                            </button>
+                                            
+                                        </div>
                                 </div>
-
+                                
+                            
                            
                         </div>
 
@@ -73,9 +200,10 @@
     </div>
 <!--  Add POS Modal -->
 
-<x-text-input type="text" wire:model.live.denounce.500ms="search" placeholder="Search" class="mb-4 p-2 border rounded" />
-    <div class="relative overflow-x-auto ">
-        <table class="@if($isAddPosModal== true) hidden @else @endif w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+
+    <div class="relative overflow-x-auto @if($isAddPosModal== true) hidden @else @endif ">
+    <x-text-input type="text" wire:model.live.denounce.500ms="search" placeholder="Search" class="mb-4 p-2 border rounded " />
+        <table class=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                             <th scope="col" class="px-6 py-3">
@@ -103,37 +231,41 @@
             <tbody>
         
                 @foreach($data as $patient)
-                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{$patient->patient_fname." ".$patient->patient_lname}}
-                                    
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{($patient->patient_address)}}
-                        </th >
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{$patient->patient_contact_number}}
-                        </th>
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        @foreach($patient->branches as $branch)
-                            {{$branch->branch_name}}
-                        @endforeach
-                    </th>
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        @foreach($patient->users as $user)
-                            {{$user->name}}
-                        @endforeach
-                    </th>
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <button class="text-blue-400" wire:click="getIDforPos({{$patient->id}})" type="button" >Create Purchase</button>
-                    </th>
-                </tr>
+                   
+                        
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                {{$patient->patient_fname." ".$patient->patient_lname}}
+                                                
+                                    </th>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{($patient->patient_address)}}
+                                    </th >
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{$patient->patient_contact_number}}
+                                    </th>
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    @foreach($patient->branches as $branch)
+                                        {{$branch->branch_name}}
+                                    @endforeach
+                                </th>
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    @foreach($patient->users as $user)
+                                        {{$user->name}}
+                                    @endforeach
+                                </th>
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <button class="text-blue-400" wire:click="getIDforPos({{$patient->id}})" type="button" >Create Purchase</button>
+                                </th>
+                            </tr>
+                       
+                   
                 @endforeach
         
             </tbody>
         </table>
     </div>
-    <div class="py-4 px-3">
+    <div class="py-4 px-3 @if($isAddPosModal== true) hidden @else @endif">
          <div class="flex">
             <div class="flex space-x-4 items-center mb-3">
                 <label > Per page</label>
