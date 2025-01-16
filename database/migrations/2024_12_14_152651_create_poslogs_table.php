@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('poslogs', function (Blueprint $table) {
+        Schema::create('pos_logs', function (Blueprint $table) {
             $table->id();
             $table->string('pos_typeOfPurchase');
-            $table->tinyInteger('pos_addamount');
-            $table->tinyInteger('pos_deposit');
-            $table->tinyInteger('pos_balance');
-            $table->tinyInteger('pos_status');
+            $table->integer('pos_addamount');
+            $table->integer('pos_deposit');
+            $table->integer('pos_balance');
+            $table->string('pos_invoice_id');
+            $table->integer('pos_status');
             $table->foreignId('pr_id');
             $table->foreignId('lens_product_id');
             $table->foreignId('frame_product_id');

@@ -14,6 +14,7 @@ use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Auth\Events\Registered;
 class PosView extends Component
 {
     use WithPagination,WithoutUrlPagination;
@@ -32,14 +33,21 @@ class PosView extends Component
     
 
     // Create POS Variables
+    public $pos_invoice_id;
+
     public $pos_typeofPurchase;
-    public $lensProduct_id;
-    public $frameProduct_id;
+    public $lensProduct_id = 0;
+    public $frameProduct_id = 0;
     public $doctor_id;
     public $notes;
     public $pd;
     public $lenslist;
     public $framelist;
+    public $totalPrice = 0;
+    public $pos_dp = 0;
+    public $pr_id = 0;
+    public $branch_id;
+
 
 
     // Data Per Patient
@@ -47,14 +55,23 @@ class PosView extends Component
     public $patientrecord;
     public $os_data,$od_data;
     
+    public function updated($property){
+        
+            $lens = Product::find($this->lensProduct_id);
+            $frames = Product::find($this->frameProduct_id);
+            $this->totalPrice = ($lens->product_price ?? 0)  + ($frames->product_price ?? 0) ;
+    }
 
     public function getIDforPos($item){
         $this->refreshTable();
        
-        $this->patient_id = $item;
+       
         
         $patient = PatientInfo::find($item);
         $this->patientNameforModal = $patient->patient_lname . ', ' . $patient->patient_fname . ' ';
+        $this->branch_id = $patient->branch_id;
+        $this->patient_id = $patient->id;
+        
         $this->patientrecord = Patientrecord::where('patient_id',$patient->id)->orderbyDesc('created_at')->limit(1)->get();
         $this->pr_count = $this->patientrecord->count();
         // dd($this->pr_count);
@@ -65,6 +82,8 @@ class PosView extends Component
         foreach($this->patientrecord as $lastrecord){
             $os_id = $lastrecord->os_id;
             $od_id = $lastrecord->od_id;
+            $this->pr_id = $lastrecord->id;
+
         }
         if($os_id <= 0 || $od_id <= 0){
             $this->os_data  = Oculussinister::find($os_id);
@@ -84,8 +103,56 @@ class PosView extends Component
             return;
         }else{
             //Insert Data to poslogs must be always pending
+            $validated;
+            
+            if($this->pos_typeofPurchase == "DP"){
+                $validated = $this->validate([
+                    'pos_invoice_id' => ['required','string','max:255'],
+                    'pos_typeofPurchase' => ['required', 'string', 'max:255'],
+                    'lensProduct_id' => ['required', 'string', 'max:255'],
+                    'frameProduct_id' => ['required', 'string', 'max:255'],
+                    'pos_dp' => ['required', 'int'],
+                ]);
+                
+                
+                $validated['pos_balance'] = ($this->totalPrice) - ($this->pos_dp) ;
+                $validated['pos_deposit'] = $this->pos_dp + 0;
+
+                    
+            }else{
+                $validated = $this->validate([
+                    'pos_invoice_id' => ['required','string','max:255'],
+                    'pos_typeofPurchase' => ['required', 'string', 'max:255'],
+                    'lensProduct_id' => ['required', 'string', 'max:255'],
+                    'frameProduct_id' => ['required', 'string', 'max:255'],
+                ]);
+                $validated['pos_balance'] = 0 ;
+                $validated['pos_deposit'] = $this->pos_dp + 0;
+                
+
+            }
+           
+            $validated['pos_invoice_id'] = $this->pos_invoice_id;
+            $validated['lens_product_id'] = $this->lensProduct_id;
+            $validated['frame_product_id'] = $this->frameProduct_id;
+            $validated['pos_typeOfPurchase'] = $this->pos_typeofPurchase;
+            $validated['branch_id'] = $this->branch_id;
+            $validated['user_id'] = auth()->user()->id;
+            $validated['pos_addamount'] = $this->totalPrice;
+            $validated['pos_status'] = 0;
+            $validated['pr_id'] = $this->pr_id;
+            $validated['patient_id'] = $this->patient_id;  
+          
+           
+            event(new Registered($pos = PosLog::create($validated)));
+            
+            $this->dispatch('success', message: 'Purchase Added Successfully as Pending');
+            $this->refreshTable();
+
         }
     }
+
+    
     public function refreshTable()
     {
         $this->reset();

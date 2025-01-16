@@ -294,7 +294,15 @@ class PatientInfoView extends Component
        
         
         $this->doctors = DoctorInfo::all();  
-        $this->data = Patientinfo::search($this->search)->paginate($this->perPage);
+        foreach(auth()->user()->roles as $roles){
+            if($roles->is_admin == 1){
+                $this->data = Patientinfo::search($this->search)->paginate($this->perPage);
+            }else{
+                $this->data = Patientinfo::where('branch_id',$roles->branch_id)->search($this->search)->paginate($this->perPage);
+            }
+        }
+
+      
         return view('livewire.patientinfo.patient-info-view',[
             'data' =>   $this->data
         ]);

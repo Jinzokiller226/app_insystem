@@ -51,22 +51,25 @@
       
       
         @vite(['resources/js/app.js'])
+        @stack('scripts')
         @livewireScripts
-        @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
         <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
-        @endpush
-        @stack('scripts')
+       
+       
        
         
     </body>
-
+    
     <script>
         document.addEventListener('livewire:load', function () {
+            
     Alpine.start();  // Ensure Alpine is started after Livewire loads
+    
 });
     </script>
      <!-- Toastr Script for livewire -->
@@ -195,4 +198,5 @@ document.addEventListener('livewire:navigated', (event) => {
   
         
 </script>
+
 </html>

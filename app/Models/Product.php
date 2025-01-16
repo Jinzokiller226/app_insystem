@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Branch;
+use App\Models\PosLog;
 
 class Product extends Model
 {
@@ -45,5 +46,13 @@ class Product extends Model
     {
         return $this->hasMany(User::class,'id','user_id');
 
+    }
+    public function productLogs1()
+    {
+        return $this->hasMany(PosLog::class, 'lens_product_id');
+    }
+    public function productLogs2()
+    {
+        return $this->hasMany(PosLog::class, 'frames_product_id');
     }
 }
