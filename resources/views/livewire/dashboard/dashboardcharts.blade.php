@@ -1,11 +1,11 @@
 
-<div>
-
-    <div class="grid grid-cols-2 gap-4 h-auto " >
-
+<div w>
+   
+    <div class="grid grid-cols-2 gap-4 h-auto "  >
+   
       <!-- Each <div> is a single column.
       Place some content inside to see the effect. -->
-      <div class="grid grid-cols-2 gap-2 h-auto  ">
+      <div class="grid grid-cols-2 gap-2 h-auto  " wire:poll.20000ms = "DashboardData">
       <div class="rounded-xl items-center shadow-xl  " style="background-color:#f0abfc;">
                   <div class="flex py-4 px-4 border rounded-t-xl rounded-b-full">
                        <h3 class="text-lg font-semibold   text-black " style=" text-decoration-thickness: 4px;">
@@ -23,7 +23,7 @@
 
                   </div>
 
-                 <div class="flex py-4 px-6">
+                 <div class="flex py-4 px-6" >
                        <h3 class="text-3xl font-bold " >
                         
                           @if($PendingTodayCount <= 0)
@@ -69,20 +69,20 @@
 
                  <div class="flex py-4 px-4">
                        <h3 class="text-2xl font-bold " >
-                          Data
+                          {{$StockOnHandCount}} Units
                          
                           
                       </h3>
 
                       
                   </div>
-                  <div class="flex py-4 px-4">
+                  <!-- <div class="flex py-4 px-4">
                       <h3 class="text-sm font-bold " >
                           Percent(7 days)
                          
                           
                       </h3>
-                  </div>
+                  </div> -->
           
           </div>
           <div class=" bg-orange-100 rounded-xl items-center shadow-xl  ">
@@ -104,7 +104,7 @@
 
                  <div class="flex py-4 px-4">
                        <h3 class="text-2xl font-bold " >
-                          Data
+                          {{$PatientCount}}
                          
                           
                       </h3>
@@ -113,7 +113,7 @@
                   </div>
                   <div class="flex py-4 px-4">
                       <h3 class="text-sm font-bold " >
-                          Percent(7 days)
+                          <!-- Percent(7 days) -->
                          
                           
                       </h3>
@@ -139,7 +139,7 @@
 
                  <div class="flex py-4 px-4">
                        <h3 class="text-2xl font-bold " >
-                          Data
+                          {{$CompletePurchasesCount}}
                          
                           
                       </h3>
@@ -148,7 +148,7 @@
                   </div>
                   <div class="flex py-4 px-4">
                       <h3 class="text-sm font-bold " >
-                          Percent(7 days)
+                          <!-- Percent(7 days) -->
                          
                           
                       </h3>
@@ -156,16 +156,69 @@
           
           </div>
         <!-- first Div -->
-
+        
 
       </div>
 
       <div class="bg-gray-200 rounded-xl shadow-xl">
-        dashnasdjahkl
-      </div>
-
-    </div>
+            <div class="w-full h-full py-2 px-2">
+                <canvas id="liveChart" wire:ignore></canvas>
+            </div>
+               <script>
+                   let chart;
+        const ctx = document.getElementById('liveChart').getContext('2d');
         
+        function initChart(data) {
+            // console.log(data);
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.label,
+                    datasets: [{
+                        label: 'Profit',
+                        data: data.amount,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    animation: {
+                        duration: 0 // Disable animation for smoother updates
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize chart when component loads
+        document.addEventListener('livewire:initialized', () => {
+            initChart(@this.salesData);
+
+            // Set up automatic refresh every second
+            setInterval(() => {
+                @this.refreshChart();
+            }, 2000);
+
+            // Listen for data updates
+            @this.on('chartDataUpdated', () => {
+                
+                let Dataset = @this.salesData;
+                chart.data.labels = Dataset.label;
+                chart.data.datasets[0].data =  Dataset.amount;
+                chart.update('none'); // Update without animation
+            });
+        });
+               </script>
+      </div>
+    
+    </div>
+   
 </div>
 
 

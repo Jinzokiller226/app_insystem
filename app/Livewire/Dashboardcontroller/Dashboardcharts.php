@@ -4,31 +4,125 @@ namespace App\Livewire\Dashboardcontroller;
 
 use Livewire\Component;
 use App\Models\PosLog;
+use App\Models\Product;
+use App\Models\PatientInfo;
+
 use Illuminate\Support\Facades\DB;
 
 class Dashboardcharts extends Component
 {
     
     public $salesData;
+
     public $pendingProductSales;
     public $PendingDateRange;
     public $PendingTodayCount;
     public $pencentCountByDateRange;
 
+    // public $ProfitOnCompleted = 0;
+    // public $ProfitOnPending = 0;
+    
+    public $chartProfitLabel ;
+    public $chartProfitData;
+
+    public $StockOnHandCount;
+
+    public $PatientCount;
+
+    public $CompletePurchasesCount = 0;
+
     public $userBranchId;
   
-    public function pendingChart(){
+    public function DashboardData(){
         
       
        $this->pendingDataPopulate();
+       $this->StocksOnHand(); 
+       $this->PatientsData();
+        $this->CompletePurchase();
+        $this->salesData = $this->getAllProfit();
+      
         
-        // dd( $this->pendingProductSales);
-        // Fetch the sales data from the database, e.g., total sales per day
-       
+    }
+    public function refreshChart(){
+        $this->salesData = $this->getAllProfit();
+        $this->dispatch('chartDataUpdated', data: $this->salesData);
+    }
+    
+    public function getAllProfit(){
+        if($this->userBranchId == 0){
+            // $productCompleted = PosLog::all();
+            
+            // foreach($productCompleted as $purchases){
+            //     if($purchases->pos_status == 1){
+            //         $this->ProfitOnCompleted =  $this->ProfitOnCompleted + ($purchases->pos_addamount);
+            //     }else{
+            //         $this->ProfitOnPending =  $this->ProfitOnPending + ($purchases->pos_addamount);  
+            //     }
+              
+            // } 
 
-    // Prepare the labels and data for the chart
-        
-        
+            $salesData = DB::table('pos_logs');
+            $salesData->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as Date_profit'), DB::raw('SUM(pos_addamount) as Amount'))
+            ->where('pos_status', 1)
+            ->groupBy(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'));
+         
+            return [
+                'label' =>  $salesData->pluck('Date_profit'),
+                'amount' => $salesData->pluck('Amount'),
+               
+            ];
+            
+
+
+          
+
+        }
+    }
+    public function CompletePurchase(){
+        if($this->userBranchId == 0){
+            $this->CompletePurchasesCount = PosLog::where('pos_status',1)->get()->count();
+
+        }else{
+            $this->CompletePurchasesCount = PosLog::where('pos_status',1)
+            ->where('branch_id',$this->userBranchId)
+            ->get()->count();
+        }
+    }
+    public function PatientsData(){
+        if($this->userBranchId == 0){
+            $this->PatientCount = PatientInfo::all()->count();
+            
+        }else{
+            $this->PatientCount = PatientInfo::where('branch_id',$this->userBranchId)->get()->count();
+        }
+
+    }
+
+    public function StocksOnHand(){
+        if($this->userBranchId == 0){
+            $product = Product::all();
+            $productCount = 0;
+
+            foreach($product as $perProduct){
+                $productCount = $productCount + ($perProduct->product_quantity);
+
+            }
+            $this->StockOnHandCount = $productCount;
+
+            // dd($productCount);
+
+        }else{
+            $product = Product::where('branch_id',$this->userBranchId)->get();
+            $productCount = 0;
+         
+            foreach($product as $perProduct){
+                $productCount = $productCount + ($perProduct->product_quantity);
+
+            }
+            $this->StockOnHandCount = $productCount;
+
+        }
     }
     public function pendingDataPopulate(){
         
@@ -45,12 +139,15 @@ class Dashboardcharts extends Component
 
             $RecordToday = PosLog::query();
             $RecordToday->select('*')
-            ->whereRaw('pos_status = 0')
-            ->whereRaw('DATE_FORMAT(DATE(created_at),"%Y-%m-%d") LIKE ?',"%".date_format(now(),"Y-m-d")."%");
+            ->whereRaw('pos_status = 0');
+            // ->whereRaw('DATE_FORMAT(DATE(created_at),"%Y-%m-%d") LIKE ?',"%".date_format(now(),"Y-m-d")."%");
 
       
             $this->PendingTodayCount = $RecordToday->get()->count();
-            $this->pencentCountByDateRange = round((($this->PendingTodayCount) / $this->pendingProductSales) * 100,2); 
+            if($this->PendingTodayCount > 0 || $this->pendingProductSales > 0){
+                $this->pencentCountByDateRange = round((($this->PendingTodayCount) / $this->pendingProductSales) * 100,2); 
+            }
+           
         }else{
             
             $poslog = PosLog::query();
@@ -88,8 +185,9 @@ class Dashboardcharts extends Component
             }
         }
         $this->PendingDateRange = 7; //default Date Range
-        $this->pendingChart();
-
+        $this->DashboardData();
+        $this->salesData = $this->getAllProfit();
+        
 
                 // dd($this->data);
     }
