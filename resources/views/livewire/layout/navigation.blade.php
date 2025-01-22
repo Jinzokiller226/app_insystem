@@ -86,7 +86,7 @@ new class extends Component
                         </x-dropdown>        
                         </div>
                     @endif
-                    <x-nav-link :href="route('inventory')" :active="request()->routeIs('inventory')" wire:navigate>
+                    <x-nav-link :href="route('inventory')"  wire:navigate>
                         {{ __('Inventory System') }}
                     </x-nav-link>
                     <div class="inline-flex space-x-8 sm:-my-px sm:ms-10 items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out">
@@ -113,7 +113,7 @@ new class extends Component
                             </x-slot>
                         </x-dropdown>        
                         </div>
-                    <x-nav-link :href="route('patientinfosystem')" :active="request()->routeIs('patientinfosystem')" wire:navigate>
+                    <x-nav-link :href="route('patientinfosystem')"  wire:navigate>
                         {{ __('Patient Information System') }}
                     </x-nav-link>
             </div>
