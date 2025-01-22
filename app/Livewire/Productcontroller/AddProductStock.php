@@ -16,7 +16,8 @@ class AddProductStock extends Component
     public $product_name;
     public $product_desc;
     public $product_quantity;
- 
+    public $new_product_quantity = 0;
+
   
     public function openModal($id)
     {
@@ -52,11 +53,11 @@ class AddProductStock extends Component
             return;
         }
         $product = Product::find($this->product_id);
-        $product->product_quantity = $product->product_quantity + abs($this->product_quantity);
+        $product->product_quantity = $product->product_quantity + abs($this->new_product_quantity);
         $product->save();
      
-        $this->dispatch('refreshProductAfterUpdate',message: 'Add Stock successfully!');
-        
+        $this->dispatch('refreshProductAfterUpdate',message: '');
+        $this->dispatch('success', message: 'Purchase Added Successfully as Pending');
         $this->closeUpdateStockModal();
         $this->resetState();
 

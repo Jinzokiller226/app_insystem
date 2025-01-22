@@ -22,8 +22,8 @@ class Dashboardcharts extends Component
     // public $ProfitOnCompleted = 0;
     // public $ProfitOnPending = 0;
     
-    public $chartProfitLabel ;
-    public $chartProfitData;
+    public $totalProfit = 0;
+
 
     public $StockOnHandCount;
 
@@ -62,15 +62,21 @@ class Dashboardcharts extends Component
               
             // } 
 
+            $posCompletedData = PosLog::where('pos_status',1)->get();
+            $this->totalProfit = 0;
+            foreach($posCompletedData as $allData){
+                $this->totalProfit = $this->totalProfit + $allData->pos_addamount;
+            }
+            // dd($this->totalProfit);
             $salesData = DB::table('pos_logs');
-            $salesData->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as Date_profit'), DB::raw('SUM(pos_addamount) as Amount'))
+            $salesData->select(DB::raw('DATE_FORMAT(created_at, "%b %d") as Date_profit'), DB::raw('SUM(pos_addamount) as Amount'))
             ->where('pos_status', 1)
-            ->groupBy(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'));
+            ->groupBy(DB::raw('DATE_FORMAT(created_at, "%b %d")'));
          
             return [
                 'label' =>  $salesData->pluck('Date_profit'),
                 'amount' => $salesData->pluck('Amount'),
-               
+                
             ];
             
 

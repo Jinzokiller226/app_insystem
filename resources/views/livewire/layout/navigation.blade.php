@@ -13,6 +13,8 @@ new class extends Component
         $user = Auth::user();
         if($user){
             $this->role = $user->role->is_admin;
+        }else{
+            $this->role =0;
         }
     }
 

@@ -162,7 +162,10 @@
 
       <div class="bg-gray-200 rounded-xl shadow-xl">
             <div class="w-full h-full py-2 px-2">
-                <canvas id="liveChart" wire:ignore></canvas>
+                    <h1 wire:ignore class="py-4 font-bold text-center text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                        Total Profit: {{$totalProfit}}
+                    </h1>
+                <canvas id="liveChart" wire:ignore> </canvas>
             </div>
                <script>
                    let chart;
@@ -175,7 +178,7 @@
                 data: {
                     labels: data.label,
                     datasets: [{
-                        label: 'Profit',
+                        label: 'Profit' ,
                         data: data.amount,
                         borderColor: 'rgb(75, 192, 192)',
                         tension: 0.1,
@@ -203,14 +206,16 @@
             // Set up automatic refresh every second
             setInterval(() => {
                 @this.refreshChart();
-            }, 2000);
+            }, 10000);
 
             // Listen for data updates
             @this.on('chartDataUpdated', () => {
                 
                 let Dataset = @this.salesData;
+           
                 chart.data.labels = Dataset.label;
                 chart.data.datasets[0].data =  Dataset.amount;
+               
                 chart.update('none'); // Update without animation
             });
         });

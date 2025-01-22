@@ -239,7 +239,16 @@ class PatientInfoView extends Component
                 'patient_gender' => ['required', 'string', 'max:255'],      
             ]);
            $validated['patient_mname'] = $this->patient_mname. "";
-            $validated['branch_id'] = $this->branch_id;
+           foreach(auth()->user()->roles as $getRole){
+            
+            if($getRole->is_admin == 1){
+                 $validated['branch_id'] = $this->branch_id;
+            }else{
+             
+                $validated['branch_id'] = $getRole->branch_id;
+            }
+           }
+            
             $validated['user_id'] = auth()->user()->id;
             
             
