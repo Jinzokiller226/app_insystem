@@ -122,7 +122,9 @@
                     <option value="50">50</option>
                 </select>
                 <div class="">
-                
+                    
+                    {{$posData->links()}}
+                    
                 </div>
             </div>
          </div>   

@@ -2,13 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\UserUpdate;
-Route::view('dashboard', 'dashboard')
+    Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
     
 
-Route::view('profile', 'profile')
+    Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 

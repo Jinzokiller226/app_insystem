@@ -1,5 +1,5 @@
 
-<div w>
+<div>
    
     <div class="grid grid-cols-2 gap-4 h-auto "  >
    
@@ -42,7 +42,7 @@
                               {{'No Entry Today'}}
 
                           @else
-                            {{$pencentCountByDateRange}}% ({{$PendingDateRange}} Days)
+                            <!-- {{$pencentCountByDateRange}}% ({{$PendingDateRange}} Days) -->
                           @endif
                          
                           
@@ -162,7 +162,7 @@
 
       <div class="bg-gray-200 rounded-xl shadow-xl">
             <div class="w-full h-full py-2 px-2">
-                    <h1 wire:ignore class="py-4 font-bold text-center text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                    <h1 class="py-4 font-bold text-center text-xl text-gray-800 dark:text-gray-200 leading-tight">
                         Total Profit: {{$totalProfit}}
                     </h1>
                 <canvas id="liveChart" wire:ignore> </canvas>

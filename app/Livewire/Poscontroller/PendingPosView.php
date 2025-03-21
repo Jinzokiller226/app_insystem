@@ -34,6 +34,7 @@ class PendingPosView extends Component
         
        $posDatabyID = PosLog::find($item);
        $posDatabyID->pos_status = 1;
+       
        $posDatabyID->user_id = auth()->user()->id;
        $posDatabyID->save();
 

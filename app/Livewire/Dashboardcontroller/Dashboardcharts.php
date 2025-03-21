@@ -41,7 +41,7 @@ class Dashboardcharts extends Component
        $this->PatientsData();
         $this->CompletePurchase();
         $this->salesData = $this->getAllProfit();
-      
+       
         
     }
     public function refreshChart(){
@@ -83,6 +83,26 @@ class Dashboardcharts extends Component
 
           
 
+        }else{
+            $posCompletedData = PosLog::where('pos_status',1)
+            ->where('branch_id',$this->userBranchId)
+            ->get();
+            $this->totalProfit = 0;
+            foreach($posCompletedData as $allData){
+                $this->totalProfit = $this->totalProfit + $allData->pos_addamount;
+            }
+            // dd($this->totalProfit);
+            $salesData = DB::table('pos_logs');
+            $salesData->select(DB::raw('DATE_FORMAT(created_at, "%b %d") as Date_profit'), DB::raw('SUM(pos_addamount) as Amount'))
+            ->where('pos_status', 1)
+            ->where('branch_id',$this->userBranchId)
+            ->groupBy(DB::raw('DATE_FORMAT(created_at, "%b %d")'));
+         
+            return [
+                'label' =>  $salesData->pluck('Date_profit'),
+                'amount' => $salesData->pluck('Amount'),
+                
+            ];
         }
     }
     public function CompletePurchase(){
@@ -192,7 +212,7 @@ class Dashboardcharts extends Component
         }
         $this->PendingDateRange = 7; //default Date Range
         $this->DashboardData();
-        $this->salesData = $this->getAllProfit();
+        // $this->salesData = $this->getAllProfit();
         
 
                 // dd($this->data);
