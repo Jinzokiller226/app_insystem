@@ -18,8 +18,9 @@ use Illuminate\Support\Facades\DB;
 class ProductManagementTable extends Component
 {
     use WithPagination,WithoutUrlPagination;
-
-    public $products;
+  
+    public $perPage = 10;
+    protected $products;
     
     public $countResult;
     public $isOpen;
@@ -52,7 +53,7 @@ class ProductManagementTable extends Component
 
     #[On('refreshProductAfterUpdate')] 
     public function refreshProductAfterUpdate($message){
-        session()->flash('message',$message);
+   
         $this->isOpen = false;
         
         $this->refreshTable();
@@ -223,68 +224,79 @@ class ProductManagementTable extends Component
 
        
     }
-    public function searchproduct(){
+    // public function searchproduct(){
 
-        $product = Product::query();
+    //     $product = Product::query();
         
        
-            if($this->searchby == "product_name"){
-                if ($this->search) {
-                $product->whereRaw('LOWER(products.product_name) like ?', ['%' . strtolower($this->search) . '%']);
-                }
-            }
-            elseif($this->searchby == "product_category"){
-                if ($this->search) {
-                $product->join('categories', 'products.category_id', '=', 'categories.id')
-                ->select('products.*', 'categories.category_name')
-                ->whereRaw('LOWER(categories.category_name) like ?', ['%' . strtolower($this->search) . '%'])
-                ->distinct()
-                ->get();
-                }
-            }
-            elseif($this->searchby == "product_supplier"){
-                if ($this->search) {
+    //         if($this->searchby == "product_name"){
+    //             if ($this->search) {
+    //             $product->whereRaw('LOWER(products.product_name) like ?', ['%' . strtolower($this->search) . '%']);
+    //             }
+    //         }
+    //         elseif($this->searchby == "product_category"){
+    //             if ($this->search) {
+    //             $product->join('categories', 'products.category_id', '=', 'categories.id')
+    //             ->select('products.*', 'categories.category_name')
+    //             ->whereRaw('LOWER(categories.category_name) like ?', ['%' . strtolower($this->search) . '%'])
+    //             ->distinct()
+    //             ->get();
+    //             }
+    //         }
+    //         elseif($this->searchby == "product_supplier"){
+    //             if ($this->search) {
                 
-                $product->join('suppliers', 'products.supplier_id', '=', 'suppliers.id')
-                        ->select('products.*', 'suppliers.supplier_name')
-                        ->whereRaw('LOWER(suppliers.supplier_name) like ?', ['%' . strtolower($this->search) . '%'])
-                        ->distinct()
-                        ->get();
+    //             $product->join('suppliers', 'products.supplier_id', '=', 'suppliers.id')
+    //                     ->select('products.*', 'suppliers.supplier_name')
+    //                     ->whereRaw('LOWER(suppliers.supplier_name) like ?', ['%' . strtolower($this->search) . '%'])
+    //                     ->distinct()
+    //                     ->get();
 
-                $this->sortField = "products.id";
-                }
+    //             $this->sortField = "products.id";
+    //             }
                 
                 
 
-            }
-            elseif($this->searchby == "product_branch_admin"){
-                if ($this->search) {
-                $product->join('branches', 'products.branch_id', '=', 'branches.id')
-                        ->select('products.*', 'branches.branch_name')
-                        ->whereRaw('LOWER(branches.branch_name) like ?', ['%' . strtolower($this->search) . '%'])
-                        ->distinct()
-                        ->get();
-                }
-            }
+    //         }
+    //         elseif($this->searchby == "product_branch_admin"){
+    //             if ($this->search) {
+    //             $product->join('branches', 'products.branch_id', '=', 'branches.id')
+    //                     ->select('products.*', 'branches.branch_name')
+    //                     ->whereRaw('LOWER(branches.branch_name) like ?', ['%' . strtolower($this->search) . '%'])
+    //                     ->distinct()
+    //                     ->get();
+    //             }
+    //         }
             
         
       
-            $product->orderBy($this->sortField, $this->sortDirection);
+    //         $product->orderBy($this->sortField, $this->sortDirection);
             
             
-           $this->products = $product->get();
+    //        $this->products = $product->get();
                
 
 
-    }
+    // }
+
+
+
     public function render()
     {
         
        
 
-     
+     foreach(auth()->user()->roles as $roles){
+            if($roles->is_admin == 1){
+                $this->products = Product::search($this->search)->paginate($this->perPage);
+            }else{
+                $this->products = Product::where('branch_id',$roles->branch_id)->search($this->search)->paginate($this->perPage);
+            }
+        }
         
-        return view('livewire.inventory.product.project-management-table');
+        return view('livewire.inventory.product.project-management-table', [
+            'products' => $this->products
+        ]);
     }
 
     public function sortBy($field)

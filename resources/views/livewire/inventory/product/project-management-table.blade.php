@@ -1,36 +1,7 @@
 
 <div>
 
-<button type="button" wire:click="$set('isOpen', true)"  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-80 " >Add Product (+)</button>
-            <form wire:submit.prevent="searchproduct" class="items-center">
-                <x-text-input type="text" wire:model.lazy="search" placeholder="Press Enter key" class="mb-4 p-2 border rounded" />        
-                        <label for="searchby" class="font-medium text-sm text-gray-700 dark:text-gray-300">Search by</label>
-                        <select
-                            class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" 
-                            id="searchby" wire:model="searchby">
-                                <option value="product_name">Product Name</option>.
-                                <option value="product_category">Category</option>
-                                <option value="product_supplier">Supplier</option>
-                                @if(auth()->user()->role->is_admin == 1)
-                                <option value="product_branch_admin">Branch</option>
-                                
-                                @endif
-                            </select>
-                            <button>
-                            <span class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 15.75-2.489-2.489m0 0a3.375 3.375 0 1 0-4.773-4.773 3.375 3.375 0 0 0 4.774 4.774ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                </svg>
-                                Search
-                            </span>
-                           
-                            </button>
-                    </form> 
-@if (session()->has('message'))
-                        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
-                                {{ session('message') }}
-                            </div>
-                        @endif
+
 
   <!-- Search bar -->
   
@@ -220,6 +191,7 @@
                     
 <!-- ADD PRODUCT MODAL END HERE -->
 <div class="relative overflow-x-auto ">
+<x-text-input type="text" wire:model.live.denounce.500ms="search" placeholder="Search" class="mb-4 p-2 border rounded" />
 <table  id="default-table" class="@if($isOpen == true || $isUpdateOpen == true) hidden @endif w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -409,11 +381,24 @@
              @endif
             </tbody>
     </table>
-    <div class="mt-4">
-    @if($countData >= 10)
-        {{ $data->links() }}
-    @endif
-    </div>
+   
+            <div class="py-4 px-3">
+                <div class="flex">
+                    <div class="flex space-x-4 items-center mb-3">
+                        <label > Per page</label>
+                        <select wire:model.live.denounce:300ms="perPage"  class="rounded">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                        <div class="@if($isOpen) hidden @endif">
+                        {{$products->links()}}
+                        </div>
+                    </div>
+                </div>   
+            </div>
+    
+    
    
     <livewire:Productcontroller.add-product-stock/>   
 

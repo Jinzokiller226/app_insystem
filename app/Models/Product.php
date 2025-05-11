@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Models;
-
+use Livewire\WithPagination;
+use Livewire\WithoutUrlPagination;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use App\Models\Supplier;
@@ -9,8 +10,10 @@ use App\Models\User;
 use App\Models\Branch;
 use App\Models\PosLog;
 
+
 class Product extends Model
 {
+ 
     protected $fillable = [
         'product_name',
         'product_desc',
@@ -55,4 +58,17 @@ class Product extends Model
     {
         return $this->hasMany(PosLog::class, 'frames_product_id');
     }
+    public function scopeSearch($query,$value){
+        $query->leftjoin('branches', 'products.branch_id', '=', 'branches.id')
+        ->leftjoin('categories', 'products.category_id', '=', 'categories.id')
+        ->leftjoin('suppliers', 'products.supplier_id', '=', 'suppliers.id')
+        ->leftjoin('users', 'products.user_id', '=', 'users.id')
+        ->select('products.*','products.product_name')    
+        ->whereRaw('LOWER(branches.branch_name) like ?', "%{$value}%")
+        ->orWhere('categories.category_name','like',"%{$value}%")
+        ->orWhere('suppliers.supplier_name','like',"%{$value}%")
+        ->orWhere('users.name','like',"%{$value}%")
+        ->get();
+    }
+
 }

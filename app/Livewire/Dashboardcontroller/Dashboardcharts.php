@@ -171,7 +171,7 @@ class Dashboardcharts extends Component
       
             $this->PendingTodayCount = $RecordToday->get()->count();
             if($this->PendingTodayCount > 0 || $this->pendingProductSales > 0){
-                $this->pencentCountByDateRange = round((($this->PendingTodayCount) / $this->pendingProductSales) * 100,2); 
+                // $this->pencentCountByDateRange = (($this->PendingTodayCount) / $this->pendingProductSales) * 100; 
             }
            
         }else{
